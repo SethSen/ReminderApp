@@ -10,11 +10,30 @@ let authController = {
   },
 
   loginSubmit: (req, res) => {
-    // implement
+    let username = req.body.username;
+    let password = req.body.password;
+    if (database[username] != undefined) {
+      if (database[username].password == password) {
+        req.session.user = username;
+        res.redirect("/reminders");
+      } else {
+        res.render("auth/login", { error: "Invalid password" });
+      }
+    } else {
+      res.render("auth/login", { error: "Invalid username" });
+    }
   },
 
   registerSubmit: (req, res) => {
-    // implement
+    let username = req.body.username;
+    let password = req.body.password;
+    if (database[username] != undefined) {
+      res.render("auth/register", { error: "Username already exists" });
+    } else {
+      database[username] = { password: password, reminders: [] };
+      req.session.user = username;
+      res.redirect("/reminders");
+    }
   },
 };
 
