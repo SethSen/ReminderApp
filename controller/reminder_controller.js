@@ -45,8 +45,11 @@ let remindersController = {
     let searchResult = database.cindy.reminders.find(function (reminder) {
       return reminder.id == reminderToFind;
     });
-    searchResult.title = req.body.title;
-    searchResult.description = req.body.description;
+    searchResult.title = req.body.title
+    searchResult.description = req.body.description
+    if(req.body.completed){
+      searchResult.completed = true
+    }
     res.redirect("/reminders");
   },
 
